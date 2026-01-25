@@ -37,9 +37,6 @@
                 <button type="submit" class="btn btn-primary" style="width:100%;">Sign In</button>
             </form>
 
-            <div style="margin-top:24px; font-size:0.85rem; color:var(--text-muted); text-align:center;">
-                <p><strong>Demo:</strong> <span id="demo-reg">...</span> / password123</p>
-            </div>
         </div>
     </div>
 
@@ -62,8 +59,8 @@
                 err.style.display = 'block';
             }
         }
-        window.onload = () => { if (window.MockDB) document.getElementById('demo-reg').innerText = window.MockDB.users[0].regNo; }
     </script>
 </body>
+
 
 </html>
