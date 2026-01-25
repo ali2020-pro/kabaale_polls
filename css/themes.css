@@ -1,0 +1,45 @@
+:root {
+    /* Light Theme (Default) */
+    --bg-body: #F3F5F9;
+    --bg-surface: #FFFFFF;
+    --bg-glass: rgba(255, 255, 255, 0.7);
+    --bg-glass-heavy: rgba(255, 255, 255, 0.9);
+    --border-glass: rgba(255, 255, 255, 0.5);
+    
+    --text-main: #1A1F2C;
+    --text-muted: #64748B;
+    --text-light: #94A3B8;
+    
+    --primary: #0F52BA; /* Kabaale Blue */
+    --primary-hover: #0a3d8f;
+    --secondary: #FFD700; /* Gold */
+    --accent: #FF3366;
+    
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+    --shadow-glow: 0 0 20px rgba(15, 82, 186, 0.15);
+    
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 8px;
+}
+
+[data-theme="dark"] {
+    --bg-body: #0F172A;
+    --bg-surface: #1E293B;
+    --bg-glass: rgba(30, 41, 59, 0.7);
+    --bg-glass-heavy: rgba(30, 41, 59, 0.9);
+    --border-glass: rgba(255, 255, 255, 0.1);
+    
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-light: #64748B;
+    
+    --primary: #3B82F6;
+    --primary-hover: #2563EB;
+    /* Secondary stays Gold */
+    
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 25px rgba(59, 130, 246, 0.2);
+}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guild Elections | Kabaale School of Comprehensive Nursing</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/auth_guard.js"></script>
+</head>
+
+<body>
+
+    <!-- News Ticker -->
+    <div class="news-ticker">
+        <div class="ticker-content">
+            <span class="ticker-item">BREAKING: Online voted closed</span>
+            <span class="ticker-item">Turnout record broken in Midwifery Dept</span>
+            <span class="ticker-item">EC Chairperson calls for calm as results stream in</span>
+            <span class="ticker-item">Live: Mawanda wins online vote guild presidency</span>
+            <span class="ticker-item">Physical voting scheduled to take place next semeter. Date to be announced</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="app-container">
+            <div class="logo-container">
+                <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <div class="logo-text">
+                    <h1>Kabaale School of Comprehensive Nursing</h1>
+                    <span>Student Democracy Portal</span>
+                </div>
+            </div>
+
+            <div class="nav-controls auth-links">
+                <a href="signin.html" class="btn btn-primary">Sign In</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <div class="app-container hero-grid">
+            <div class="hero-text">
+                <h1>Decide The Future.</h1>
+                <p>Secure, transparent, and digital voting for the 2026 Guild Presidency. Authentication required to
+                    view live data.</p>
+                <div style="display:flex; gap: 12px; align-items:center; flex-wrap:wrap;">
+                    <a href="#voting-section" class="btn btn-primary">View Results</a>
+                    <button class="btn btn-outline" onclick="exportResults()"><i class="fa-solid fa-download"></i>
+                        Export Data</button>
+                    <div class="btn btn-outline"
+                        style="border:none; cursor:default; background:transparent; padding-left:0;">
+                        <span
+                            style="width:8px; height:8px; background:#EF4444; border-radius:50%; display:inline-block; margin-right:8px;"></span>
+                        Voting Closed
+                    </div>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-val count-up" data-target="627">0</div>
+                    <div class="stat-lbl">Votes Verified</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Candidates -->
+    <main id="voting-section" class="app-container">
+        <div class="section-header">
+            <h3>Candidates Overview</h3>
+            <p>Verified candidates and final vote tallies.</p>
+
+            <div class="controls-toolbar">
+                <div class="control-group">
+                    <label>Position</label>
+                    <select id="grid-pos-filter" class="form-select">
+                        <!-- JS Grid Filter -->
+                    </select>
+                </div>
+                <div class="control-group" style="flex:1;">
+                    <label>Search Candidate</label>
+                    <div style="position:relative;">
+                        <i class="fa-solid fa-magnifying-glass"
+                            style="position:absolute; left:12px; top:12px; color:#94a3b8;"></i>
+                        <input type="text" id="candidate-search" class="form-input" placeholder="Search by name..."
+                            style="width:100%; padding-left:36px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="candidates-grid" id="candidates-container">
+            <!-- JS -->
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="candidate-modal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header-bg" id="m-bg"></div>
+            <div class="modal-content">
+                <div class="modal-avatar-wrapper">
+                    <img id="m-photo" src="" alt="Candidate">
+                </div>
+                <div style="text-align:center; margin-top: 50px;">
+                    <h2 id="m-name">Candidate Name</h2>
+                    <div id="m-role" class="modal-badge">Position</div>
+                    <p id="m-slogan" class="modal-slogan">"Slogan goes here"</p>
+                </div>
+
+                <div class="modal-details-grid">
+                    <div class="detail-item">
+                        <label>Age</label>
+                        <span id="m-age">22</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Course</label>
+                        <span id="m-course">Nursing</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Vote Count</label>
+                        <span id="m-votes" style="color:var(--primary); font-weight:700;">0</span>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h4>Manifesto Highlights</h4>
+                    <ul id="m-manifesto">
+                        <!-- JS -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="analytics-section">
+        <div class="app-container">
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px; flex-wrap:wrap; gap:12px;">
+                <h3>Demographic Breakdown</h3>
+                <div style="display:flex; gap:12px;">
+                    <select id="pos-filter" class="form-select">
+                        <!-- JS Position Chart Filter -->
+                    </select>
+                    <select id="cand-filter" class="form-select">
+                        <option value="all">All Candidates</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="dash-grid">
+                <div class="dash-card span-4">
+                    <div class="dash-header">Vote Share</div>
+                    <div style="flex:1;"><canvas id="voteShareChart"></canvas></div>
+                </div>
+                <div class="dash-card span-4">
+                    <div class="dash-header">Gender Split</div>
+                    <div style="flex:1;"><canvas id="genderChart"></canvas></div>
+                </div>
+                <div class="dash-card span-4">
+                    <div class="dash-header">Turnout by School</div>
+                    <div style="flex:1;"><canvas id="schoolChart"></canvas></div>
+                </div>
+                <div class="dash-card span-12">
+                    <div class="dash-header">Votes by Year of Study</div>
+                    <div style="height: 300px;"><canvas id="yearChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="app-container">
+            <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:30px;">
+                <div>
+                    <h4 style="color:white; margin-bottom:12px;">Kabaale School of Comprehensive Nursing EC</h4>
+                    <p style="opacity:0.7; max-width:300px;">Ensuring free and fair elections through technology.</p>
+                </div>
+                <div class="footer-links" style="display:flex; gap:20px;">
+                    <a href="#">Guidelines</a>
+                    <a href="#">Support</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div
+                style="margin-top:40px; padding-top:20px; border-top:1px solid #334155; font-size:0.85rem; opacity:0.5;">
+                &copy; 2026 Kabaale School of Comprehensive Nursing EC.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/db_config.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/users_list.js"></script>
+    <script src="js/mock_db.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

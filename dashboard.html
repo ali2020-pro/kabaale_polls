@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My History - Kabaale University</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="app-container">
+            <div class="logo-container">
+                <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                    <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="logo-text">
+                        <h1>Kabaale University</h1>
+                    </div>
+                </a>
+            </div>
+            <div style="display:flex; gap:12px;">
+                <a href="index.html" class="btn btn-outline" style="font-size:0.9rem;">Home</a>
+                <a href="profile.html" class="btn btn-outline" style="font-size:0.9rem;">Profile</a>
+                <button onclick="logout()" class="btn btn-outline"
+                    style="font-size:0.9rem; color:#EF4444; border-color:#EF4444;">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container" style="padding-top:40px; padding-bottom: 60px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <div>
+                <a href="index.html" style="color:var(--text-muted); font-size:0.9rem;"><i
+                        class="fa-solid fa-arrow-left"></i> Back home</a>
+                <h2 style="margin-top:8px;">My Voting History</h2>
+            </div>
+            <div style="text-align:right;">
+                <select id="position-filter" class="form-select">
+                    <option value="all">All Positions</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="history-container" class="candidates-grid"
+            style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+            <!-- JS -->
+        </div>
+    </div>
+
+    <script src="js/db_config.js"></script>
+    <script src="js/users_list.js"></script>
+    <script src="js/mock_db.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = sessionStorage.getItem('currentUser');
+            if (!userStr) { window.location.href = 'signin.html'; return; }
+            const user = JSON.parse(userStr);
+
+            if (window.MockDB) {
+                const sel = document.getElementById('position-filter');
+                window.MockDB.positions.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p.id; opt.innerText = p.title; sel.appendChild(opt);
+                });
+                render(user, 'all');
+                sel.addEventListener('change', e => render(user, e.target.value));
+            }
+        });
+
+        function render(user, filter) {
+            const cont = document.getElementById('history-container');
+            cont.innerHTML = '';
+            const list = filter === 'all' ? window.MockDB.positions : window.MockDB.positions.filter(p => p.id === filter);
+
+            list.forEach(pos => {
+                const vote = user.voteHistory[pos.id];
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.padding = '20px';
+                card.style.display = 'flex';
+                card.style.alignItems = 'center';
+                card.style.gap = '16px';
+
+                if (vote) {
+                    card.innerHTML = `
+                        <img src="${vote.candidatePhoto}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
+                        <div>
+                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); font-weight:600;">${pos.title}</div>
+                            <div style="font-weight:600; color:var(--text-main);">${vote.candidateName}</div>
+                            <div style="font-size:0.8rem; color:var(--text-light);">${new Date(vote.timestamp).toLocaleDateString()}</div>
+                        </div>
+                        <div style="margin-left:auto; color:var(--success);"><i class="fa-solid fa-check-circle"></i></div>
+                    `;
+                } else if (filter !== 'all') {
+                    card.innerHTML = `
+                        <div style="width:50px; height:50px; background:#F1F5F9; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text-light);"><i class="fa-solid fa-ban"></i></div>
+                        <div>
+                            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); font-weight:600;">${pos.title}</div>
+                            <div style="font-weight:600;">Did not vote</div>
+                        </div>
+                    `;
+                }
+                if (vote || filter !== 'all') cont.appendChild(card);
+            });
+        }
+        function logout() { sessionStorage.removeItem('currentUser'); window.location.href = 'index.html'; }
+    </script>
+</body>
+
+</html>
