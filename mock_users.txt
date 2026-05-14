@@ -631,3 +631,7 @@ Default Password: password123
 625  | 25/U/1624/EVE      | Thomas Akullo             | Male     | Year 1   | Nursing (Certificate)
 626  | 24/U/1625/EVE      | Jennifer Nantongo         | Female   | Year 2   | Nursing (Diploma)
 627  | 23/U/1626/EVE      | Mariam Ochieng            | Female   | Year 3   | Midwifery (Certificate)
+
+
+
+THE END

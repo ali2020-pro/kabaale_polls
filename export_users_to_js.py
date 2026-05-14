@@ -1,5 +1,5 @@
 import json
-
+# comment
 TOTAL_VOTERS = 627
 OUTPUT_FILE = 'js/users_list.js'
 
